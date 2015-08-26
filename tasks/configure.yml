@@ -18,19 +18,6 @@
     - runtime-data
     - apache
 
-- name: Upload Config | apache
-  template:
-    src: etc/apache2/apache.conf
-    dest: /etc/apache2/apache.conf
-    owner: root
-    group: staff
-    mode: 0664
-  notify: Reload Service | apache
-  tags:
-    - configuration
-    - template-configuration
-    - apache
-
 - name: Configure | apache | ports.conf
   lineinfile:
     dest: "etc/apache2/ports.conf"
