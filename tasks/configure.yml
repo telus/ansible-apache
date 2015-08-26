@@ -1,0 +1,98 @@
+---
+# - name: Disable Apache mods.
+#   file:
+#     path: "{{ apache_server_root }}/mods-enabled/{{ item }}"
+#     state: absent
+#   with_items: apache_mods_disabled
+#   notify: restart apache
+
+- name: "Directory Exists | {{ apache_runtime_root }}"
+  file:
+    state: directory
+    path: "{{ apache_runtime_root }}"
+    owner: "{{ apache_user }}"
+    group: "{{ apache_group }}"
+    mode: 0775
+  tags:
+    - directory-structure
+    - runtime-data
+    - apache
+
+- name: "Directory Exists | {{ apache_docroot }}"
+  file:
+    state: directory
+    path: "{{ apache_docroot }}"
+    owner: "{{ apache_user }}"
+    group: "{{ apache_group }}"
+    mode: 0775
+  tags:
+    - directory-structure
+    - apache
+
+- name: Upload Config | apache
+  template:
+    src: etc/apache2/apache.conf
+    dest: /etc/apache2/apache.conf
+    owner: root
+    group: staff
+    mode: 0664
+  notify: Reload Service | apache
+  tags:
+    - configuration
+    - template-configuration
+    - apache
+
+- name: Configure | apache | ports.conf
+  lineinfile:
+    dest: "etc/apache2/ports.conf"
+    regexp: "^Listen"
+    line: "Listen 80"
+    state: present
+  notify: restart apache
+
+- name: Configure | apache | mods
+  file:
+    src: "/etc/apache2/mods-available/{{ item }}"
+    dest: "/etc/apache2/mods-enabled/{{ item }}"
+    state: link
+  with_items: apache_mods
+  notify: Reload Service | apache2
+  tags:
+    - configuration
+    - apache-mods
+    - apache
+
+- name: Upload Config | apache | standard
+  template:
+    src: etc/apache2/sites-available/site.conf
+    dest: /etc/apache2/sites-available/site.conf
+    owner: root
+    group: staff
+    mode: 0664
+  notify: Reload Service | apache2
+  when: apache_standard_configuration
+  tags:
+    - apache
+
+- name: Enable Config | apache | standard
+  file:
+    state: link
+    src: /etc/apache2/sites-available/site.conf
+    dest: /etc/apache2/sites-enabled/site
+  notify: Reload Service | apache2
+  when: apache_standard_configuration
+  tags:
+    - configuration
+    - enable-configuration
+    - apache
+
+- name: Disable Config | apache | default
+  file:
+    state: absent
+    path: /etc/apache2/sites-enabled/000-default.conf
+  notify: Reload Service | apache2
+  tags:
+    - configuration
+    - disable-configuration
+    - disable-default
+    - apache

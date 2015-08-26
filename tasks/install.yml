@@ -1,0 +1,11 @@
+---
+- name: Install Packages | apt
+  apt:
+    state: latest
+    pkg: "{{ item }}"
+  with_items:
+    - apache2
+  tags:
+    - apache2
+    - software-installation
+    - using-apt

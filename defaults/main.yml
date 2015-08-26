@@ -1,19 +1,32 @@
 ---
-apache_enablerepo: ""
+apache_user: www-data
+apache_group: www-data
 
-apache_listen_port: 80
-apache_listen_port_ssl: 443
+apache_log_root: "{{ log_root | default('/var/log') }}/apache"
+apache_runtime_root: "{{ runtime_root | default('/var/run') }}/apache"
+apache_pidfile_path: "{{ apache_runtime_root }}/apache.pid"
+# apache_docroot: /data/www/docroot
 
-apache_create_vhosts: true
-apache_vhosts_filename: "vhosts.conf"
+apache_standard_configuration: yes
+
+apache_port: 80
+apache_port_ssl: 443
+
+# apache_enablerepo: ""
+
+# apache__port: 80
+# apache_listen_port_ssl: 443
+
+# apache_create_vhosts: true
+# apache_vhosts_filename: "vhosts.conf"
 
 # On Debian/Ubuntu, a default virtualhost is included in Apache's configuration.
 # Set this to `true` to remove that default.
-apache_remove_default_vhost: false
+# apache_remove_default_vhost: false
 
 apache_vhosts:
   # Additional properties: 'serveradmin, serveralias, extra_parameters'.
-  - {servername: "local.dev", documentroot: "/var/www/html"}
+  - {servername: "local.dev", documentroot: "/data/www/docroot"}
 
 apache_vhosts_ssl: []
   # Additional properties: 'serveradmin, extra_parameters'.
@@ -26,11 +39,11 @@ apache_vhosts_ssl: []
   #   certificate_chain_file: "/path/to/certificate_chain.crt"
   # }
 
-apache_ssl_protocol: "All -SSLv2 -SSLv3"
-apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
+apache_ssl_protocol: "TLSv1.2"
+apache_ssl_cipher_suite: "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS"
 
 # Only used on Debian/Ubuntu.
-apache_mods_enabled:
+apache_mods:
   - rewrite.load
   - ssl.load
-apache_mods_disabled: []
+# apache_mods_disabled: []
