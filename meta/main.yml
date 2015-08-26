@@ -1,24 +1,21 @@
 ---
-dependencies: []
+dependencies:
+  - role: telusdigital.apt-repository
+    repository_key: "0x9316a7bc7917b12"
+    repository_url: "deb http://ppa.launchpad.net/chris-lea/apache2/ubuntu {{ ansible_distribution_release }} main"
 
 galaxy_info:
-  author: geerlingguy
-  description: Apache 2.x for RedHat/CentOS/Debian/Ubuntu.
-  company: "Midwestern Mac, LLC"
-  license: "license (BSD, MIT)"
-  min_ansible_version: 1.4
+  author: "Ben Visser"
+  company: "TELUS digital"
+  description: "An open-source HTTP server for modern operating systems"
+  license: MIT
   platforms:
-  - name: EL
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - all
-  - name: Ubuntu
-    versions:
-    - precise
-    - raring
-    - saucy
-    - trusty
+    - name: Ubuntu
+      versions:
+      - lucid
+      - precise
+      - trusty
+      - utopic
+      - vivid
   categories:
     - web
