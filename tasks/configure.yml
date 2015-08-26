@@ -18,17 +18,6 @@
     - runtime-data
     - apache
 
-- name: "Directory Exists | {{ apache_docroot }}"
-  file:
-    state: directory
-    path: "{{ apache_docroot }}"
-    owner: "{{ apache_user }}"
-    group: "{{ apache_group }}"
-    mode: 0775
-  tags:
-    - directory-structure
-    - apache
-
 - name: Upload Config | apache
   template:
     src: etc/apache2/apache.conf
