@@ -1,11 +1,4 @@
 ---
-# - name: Disable Apache mods.
-#   file:
-#     path: "{{ apache_server_root }}/mods-enabled/{{ item }}"
-#     state: absent
-#   with_items: apache_mods_disabled
-#   notify: restart apache
-
 - name: "Directory Exists | {{ apache_runtime_root }}"
   file:
     state: directory
@@ -26,7 +19,7 @@
     state: present
   notify: restart apache
 
-- name: Configure | apache | mods
+- name: Configure | apache | enable mods
   file:
     src: "/etc/apache2/mods-available/{{ item }}"
     dest: "/etc/apache2/mods-enabled/{{ item }}"
@@ -48,6 +41,8 @@
   notify: Reload Service | apache2
   when: apache_standard_configuration
   tags:
+    - configuration
+    - upload-configuration
     - apache
 
 - name: Enable Config | apache | standard

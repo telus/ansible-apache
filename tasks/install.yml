@@ -6,6 +6,6 @@
   with_items:
     - apache2
   tags:
-    - apache2
+    - apache
     - software-installation
     - using-apt
