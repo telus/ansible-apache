@@ -20,7 +20,7 @@
 
 - name: Configure | apache | ports.conf
   lineinfile:
-    dest: "etc/apache2/ports.conf"
+    dest: "/etc/apache2/ports.conf"
     regexp: "^Listen"
     line: "Listen 80"
     state: present
