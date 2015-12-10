@@ -1,7 +1,20 @@
 ---
-- name: Reload Service | apache2
+- name: service | apache2 | started
   service:
+    name: spache2
+    state: started
+
+- name: service | apache2 | stopped
+  service:
+    name: spache2
+    state: stopped
+
+- name: service | apache2 | restarted
+  service:
+    name: spache2
+    state: restarted
+
+- name: service | apache2 | reloaded
+  service:
+    name: spache2
     state: reloaded
-    name: apache2
-  tags:
-    - disruptive
