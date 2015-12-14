@@ -1,4 +1,4 @@
-v---
+---
 - name: "Directory Exists | {{ apache_runtime_root }}"
   file:
     state: directory
