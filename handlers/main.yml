@@ -1,20 +1,20 @@
 ---
 - name: service | apache2 | started
   service:
-    name: spache2
+    name: apache2
     state: started
 
 - name: service | apache2 | stopped
   service:
-    name: spache2
+    name: apache2
     state: stopped
 
 - name: service | apache2 | restarted
   service:
-    name: spache2
+    name: apache2
     state: restarted
 
 - name: service | apache2 | reloaded
   service:
-    name: spache2
+    name: apache2
     state: reloaded
