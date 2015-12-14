@@ -1,4 +1,4 @@
----
+v---
 - name: "Directory Exists | {{ apache_runtime_root }}"
   file:
     state: directory
@@ -17,7 +17,7 @@
     regexp: "^Listen"
     line: "Listen 80"
     state: present
-  notify: restart apache
+  notify: service | apache2 | restarted
 
 - name: Configure | apache | enable mods
   file:
@@ -25,7 +25,7 @@
     dest: "/etc/apache2/mods-enabled/{{ item }}"
     state: link
   with_items: apache_mods
-  notify: Reload Service | apache2
+  notify: service | apache2 | reloaded
   tags:
     - configuration
     - apache-mods
@@ -38,7 +38,7 @@
     owner: root
     group: staff
     mode: 0664
-  notify: Reload Service | apache2
+  notify: service | apache2 | reloaded
   when: apache_standard_configuration
   tags:
     - configuration
@@ -50,7 +50,7 @@
     state: link
     src: /etc/apache2/sites-available/site.conf
     dest: /etc/apache2/sites-enabled/site
-  notify: Reload Service | apache2
+  notify: service | apache2 | reloaded
   when: apache_standard_configuration
   tags:
     - configuration
@@ -61,7 +61,7 @@
   file:
     state: absent
     path: /etc/apache2/sites-enabled/000-default.conf
-  notify: Reload Service | apache2
+  notify: service | apache2 | reloaded
   tags:
     - configuration
     - disable-configuration
